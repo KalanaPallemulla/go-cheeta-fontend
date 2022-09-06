@@ -10,10 +10,20 @@ import Booking from "./client/Booking";
 //Admin Pages
 import Admin from "./admin/AdminHome";
 import PrivateRoute from "./PrivateRoute";
+import ManageDrivers from "./admin/ManageDriversAdd";
+import ManageDriverEdit from "./admin/ManageDriverEdit";
+
+import AddVehicle from "./admin/ManageVehicles/AddVehicle";
+import EditVehicle from "./admin/ManageVehicles/EditVehicle";
+import AllVehicles from "./admin/ManageVehicles/AllVehicles";
 
 //Driver Pages
 import Driver from "./driver/DriverHome";
 import DriverLogin from "./driver/DriverLogin";
+import ManageDriversAll from "./admin/ManageDriversAll";
+import AllBranches from "./admin/ManageBranches/AllBranches";
+import EditBranch from "./admin/ManageBranches/EditBranch";
+import AddBranch from "./admin/ManageBranches/AddBranch";
 
 function App() {
   return (
@@ -34,6 +44,17 @@ function App() {
       </Routes>
       <Routes>
         <Route path="/admin" element={<Admin />} />
+        <Route path="/manage-driver-add" element={<ManageDrivers />} />
+        <Route path="/manage-driver-edit" element={<ManageDriverEdit />} />
+        <Route path="/manage-drivers" element={<ManageDriversAll />} />
+
+        <Route path="/manage-vehicles" element={<AllVehicles />} />
+        <Route path="/manage-vehicle-edit" element={<EditVehicle />} />
+        <Route path="/manage-vehicle-add" element={<AddVehicle />} />
+
+        <Route path="/manage-branches" element={<AllBranches />} />
+        <Route path="/manage-branch-edit" element={<EditBranch />} />
+        <Route path="/manage-branch-add" element={<AddBranch />} />
       </Routes>
 
       <Routes>
