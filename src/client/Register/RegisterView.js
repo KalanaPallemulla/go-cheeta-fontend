@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { userRegister } from "../../admin/Actions/user";
 import Cab from "../../assets/cab.gif";
 import Hi from "../../assets/hi.gif";
 import Navbar from "../components/Navbar";
 
 const RegisterView = () => {
+  const navigate = useNavigate();
   const [user, setUser] = useState({
     name: "",
     email: "",
@@ -20,11 +22,15 @@ const RegisterView = () => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (password === confirmPassword) {
-      console.log(user);
+      const res = await userRegister(user);
+      if (res.data) {
+        window.localStorage.setItem("user", res.data.id);
+        navigate("/booking");
+      }
     }
   };
 
@@ -43,7 +49,6 @@ const RegisterView = () => {
     }
   }, [name, email, password, confirmPassword]);
 
-  console.log(user);
   return (
     <>
       <Navbar />
@@ -62,7 +67,10 @@ const RegisterView = () => {
             </h1>
             <div className="flex h-full">
               <div className="m-auto">
-                <form className="bg-white p-8 rounded-lg shadow-lg shadow-gray-400 ">
+                <form
+                  className="bg-white p-8 rounded-lg shadow-lg shadow-gray-400 "
+                  onSubmit={handleSubmit}
+                >
                   <h1 className="text-2xl DF text-center font-bold mb-6 text-blue-700">
                     Sign up
                   </h1>

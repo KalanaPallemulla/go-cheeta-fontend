@@ -24,6 +24,9 @@ import ManageDriversAll from "./admin/ManageDriversAll";
 import AllBranches from "./admin/ManageBranches/AllBranches";
 import EditBranch from "./admin/ManageBranches/EditBranch";
 import AddBranch from "./admin/ManageBranches/AddBranch";
+import AllCategories from "./admin/ManageVehicleCategory/AllCategories";
+import EditVehicleCategory from "./admin/ManageVehicleCategory/EditVehicleCategory";
+import AddVehicleCategory from "./admin/ManageVehicleCategory/AddVehicleCategory";
 
 function App() {
   return (
@@ -45,16 +48,23 @@ function App() {
       <Routes>
         <Route path="/admin" element={<Admin />} />
         <Route path="/manage-driver-add" element={<ManageDrivers />} />
-        <Route path="/manage-driver-edit" element={<ManageDriverEdit />} />
+        <Route path="/manage-driver-edit/:id" element={<ManageDriverEdit />} />
         <Route path="/manage-drivers" element={<ManageDriversAll />} />
 
         <Route path="/manage-vehicles" element={<AllVehicles />} />
-        <Route path="/manage-vehicle-edit" element={<EditVehicle />} />
+        <Route path="/manage-vehicle-edit/:id" element={<EditVehicle />} />
         <Route path="/manage-vehicle-add" element={<AddVehicle />} />
 
         <Route path="/manage-branches" element={<AllBranches />} />
         <Route path="/manage-branch-edit" element={<EditBranch />} />
         <Route path="/manage-branch-add" element={<AddBranch />} />
+
+        <Route path="/manage-categories" element={<AllCategories />} />
+        <Route
+          path="/manage-category-edit/:id"
+          element={<EditVehicleCategory />}
+        />
+        <Route path="/manage-category-add" element={<AddVehicleCategory />} />
       </Routes>
 
       <Routes>

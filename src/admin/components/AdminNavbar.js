@@ -60,6 +60,27 @@ const AdminNavbar = () => {
           <Popover placement="bottom">
             <PopoverHandler>
               <div className="bg-slate-800 shadow-yellow-900 w-48 py-4 font-bold text-white text-xl rounded-2xl shadow-md text-center cursor-pointer">
+                Manage Vehicle Category
+              </div>
+            </PopoverHandler>
+            <PopoverContent>
+              <div className="space-y-4 p-2">
+                <Link to="/manage-categories">
+                  <div className="px-4 py-2 border border-gray-300 text-lg font-serif rounded-md cursor-pointer hover:bg-gray-300 hover:text-white">
+                    All categories
+                  </div>
+                </Link>
+                <Link to="/manage-category-add">
+                  <div className="px-4 py-2 border border-gray-300 text-lg font-serif rounded-md cursor-pointer hover:bg-gray-300 hover:text-white">
+                    Add new category
+                  </div>
+                </Link>
+              </div>
+            </PopoverContent>
+          </Popover>
+          <Popover placement="bottom">
+            <PopoverHandler>
+              <div className="bg-slate-800 shadow-yellow-900 w-48 py-4 font-bold text-white text-xl rounded-2xl shadow-md text-center cursor-pointer">
                 Manage Branches
               </div>
             </PopoverHandler>

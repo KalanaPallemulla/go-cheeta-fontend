@@ -1,9 +1,20 @@
 import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FcHome, FcAutomotive, FcBusinessman } from "react-icons/fc";
+import { BiExit } from "react-icons/bi";
 
 function Navbar() {
+  const navigate = useNavigate();
   const { pathname } = useLocation();
+  const auth = window.localStorage.getItem("user");
+  const driver = window.localStorage.getItem("driver");
+
+  const handleClick = () => {
+    window.localStorage.removeItem("user");
+    window.localStorage.removeItem("driver");
+
+    navigate("/");
+  };
 
   return (
     <div>
@@ -47,6 +58,24 @@ function Navbar() {
                 </Link>
                 <h1 className="ml-1 DF text-sm text-white font-bold">Driver</h1>
               </div>
+              {(auth || driver) && (
+                <div
+                  className="flex justify-center flex-col items-center"
+                  onClick={handleClick}
+                >
+                  <div
+                    // to="/driver"
+                    className={`AF font-bold ${
+                      pathname === "/support" ? "text-blue-700" : "text-white"
+                    } text-4xl hover:text-blue-700`}
+                  >
+                    <BiExit />
+                  </div>
+                  <h1 className="ml-1 DF text-sm text-white font-bold">
+                    Logout
+                  </h1>
+                </div>
+              )}
             </div>
           </div>
         </div>

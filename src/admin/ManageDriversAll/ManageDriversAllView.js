@@ -1,9 +1,44 @@
 import { Input, Option, Select } from "@material-tailwind/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Container from "../components/Container";
+import { deleteDriver, getAllDrivers } from "../Actions/drivers";
+import { getBranchById } from "../Actions/branch";
+import { Link } from "react-router-dom";
 
 const ManageDriversAllView = () => {
-  const [pulse] = useState(true);
+  const [pulse, setPulse] = useState(true);
+  const [drivers, setDrivers] = useState([]);
+
+  useEffect(() => {
+    // getData();
+
+    getData();
+  }, []);
+  const getData = async () => {
+    let driversWithBranch = [];
+    const res = await getAllDrivers();
+    const { data } = res;
+    console.log("data", data);
+    for (let i = 0; i < data.length; i++) {
+      let branch = await getBranchById(data[i].branch_id);
+      console.log("branch.data.name", branch.data.name);
+      data[i].branch = branch.data.name;
+      driversWithBranch.push(data[i]);
+    }
+
+    console.log("driversWithBranch", driversWithBranch);
+    setDrivers(driversWithBranch);
+  };
+
+  const handleDelete = async (id) => {
+    const res = await deleteDriver(id);
+    if (res.status === 200) {
+      getData();
+    }
+  };
+
+  console.log("drivers", drivers);
+
   return (
     <Container>
       <div className="py-4 bg-slate-800 h-full text-2xl font-bold text-white px-4">
@@ -31,7 +66,13 @@ const ManageDriversAllView = () => {
                 scope="col"
                 className="px-6 py-3 text-xs font-bold text-left text-gray-500 uppercase "
               >
-                Email
+                Contact no
+              </th>
+              <th
+                scope="col"
+                className="px-6 py-3 text-xs font-bold text-left text-gray-500 uppercase "
+              >
+                username
               </th>
               <th
                 scope="col"
@@ -53,29 +94,40 @@ const ManageDriversAllView = () => {
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200">
-            <tr>
-              <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                Jone Doe
-              </td>
-              <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                jonne62@gmail.com
-              </td>
-              <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                Kandy
-              </td>
-              <td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
-                <a className="text-green-500 hover:text-green-700" href="#">
-                  Edit
-                </a>
-              </td>
-              <td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
-                <a className="text-red-500 hover:text-red-700" href="#">
-                  Delete
-                </a>
-              </td>
-            </tr>
-          </tbody>
+          {drivers.map((driver, index) => (
+            <tbody key={index} className="divide-y divide-gray-200">
+              <tr>
+                <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                  {driver.name}
+                </td>
+                <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                  {driver.contactNo}
+                </td>
+                <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                  {driver.username}
+                </td>
+                <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                  {driver.branch && driver.branch}
+                </td>
+                <td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
+                  <Link
+                    className="text-green-500 hover:text-green-700"
+                    to={`/manage-driver-edit/${driver.id}`}
+                  >
+                    Edit
+                  </Link>
+                </td>
+                <td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
+                  <button
+                    onClick={() => handleDelete(driver.id)}
+                    className="text-red-500 hover:text-red-700"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          ))}
         </table>
       </div>
     </Container>

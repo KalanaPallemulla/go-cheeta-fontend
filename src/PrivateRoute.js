@@ -2,6 +2,7 @@ import { Route, Navigate, Routes } from "react-router-dom";
 
 function PrivateRoute({ children, type = "user" }) {
   let auth = window.localStorage.getItem("user");
+  console.log(auth);
   let driver = window.localStorage.getItem("driver");
 
   if (!auth && type === "user") {

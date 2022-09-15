@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { loginByEmail } from "../../admin/Actions/user";
 import Cab from "../../assets/cab.gif";
 import Hi from "../../assets/hi.gif";
 import Navbar from "../components/Navbar";
 
-const LoginView = () => {
+const LoginView = ({ props }) => {
+  const history = useNavigate();
   const [user, setUser] = useState({
-    name: "",
     email: "",
     password: "",
   });
@@ -20,11 +21,15 @@ const LoginView = () => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (password === confirmPassword) {
-      console.log(user);
+    const res = await loginByEmail(email, password);
+    console.log(res);
+    if (res.data) {
+      // console.log(history);
+      // Navigate.to("/admin");
+      window.localStorage.setItem("user", res.data.id);
+      history("/booking");
     }
   };
 
@@ -36,7 +41,6 @@ const LoginView = () => {
     }
   }, [name, email, password, confirmPassword]);
 
-  console.log(user);
   return (
     <>
       <Navbar />
@@ -55,7 +59,10 @@ const LoginView = () => {
             </h1>
             <div className="flex h-full">
               <div className="m-auto">
-                <form className="bg-white p-8 rounded-lg shadow-lg shadow-gray-400 ">
+                <form
+                  className="bg-white p-8 rounded-lg shadow-lg shadow-gray-400 "
+                  onSubmit={handleSubmit}
+                >
                   <h1 className="text-2xl DF text-center font-bold mb-6 text-blue-700">
                     Sign in
                   </h1>
@@ -90,7 +97,6 @@ const LoginView = () => {
 
                   <div className="flex justify-center">
                     <button
-                      disabled={!pulse}
                       className={`px-4 py-2 mt-4 rounded-md DF border  ${
                         pulse
                           ? "bg-sky-500 text-white animate-pulse"
