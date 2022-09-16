@@ -12,6 +12,7 @@ const AddVehicle = () => {
   const [categories, setCategories] = useState([]);
   const [allDrivers, setAllDrivers] = useState([]);
   const [drivers, setDrivers] = useState([]);
+  const [allDriversFrom, setAllDriversFrom] = useState([]);
   const [selectDriver, setSelectDriver] = useState("");
 
   const [vehicle, setVehicle] = useState({
@@ -33,7 +34,7 @@ const AddVehicle = () => {
   };
   const allDriversFromDb = async () => {
     const res = await getAllDrivers();
-    setAllDrivers(res.data);
+    setAllDriversFrom(res.data);
   };
   useEffect(() => {
     getBranches();
@@ -65,6 +66,15 @@ const AddVehicle = () => {
     const res = await addVehicleToStore(data);
     console.log(res);
   };
+
+  console.log(allDriversFrom);
+
+  useEffect(() => {
+    if (vehicle.branch_id) {
+      const res = allDriversFrom.filter((d) => d.branch_id == branch_id);
+      setAllDrivers(res);
+    }
+  }, [vehicle.branch_id]);
 
   return (
     <Container>

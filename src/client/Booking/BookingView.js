@@ -6,7 +6,7 @@ import Navbar from "../components/Navbar";
 import { ReactSmartScroller } from "react-smart-scroller";
 import BookingCard from "./BookingCard";
 import { Element } from "react-scroll";
-import { getAllBranches } from "../../admin/Actions/branch";
+import { branchBooking, getAllBranches } from "../../admin/Actions/branch";
 import { getAllCategories } from "../../admin/Actions/category";
 import { calculateCost } from "../common/common";
 import { createBooking, getAllBookings } from "../../admin/Actions/booking";
@@ -72,6 +72,7 @@ const BookingView = () => {
         return;
       }
       const res = await createBooking(booking);
+      const branchRes = await branchBooking(branch_id, res.data.id);
       allBookings();
       console.log(res);
     } else {

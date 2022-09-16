@@ -1,10 +1,16 @@
 import axios from "axios";
-import { MainPath, vehicle, vehicleCategory, vehicles } from "./api";
+import {
+  FreeVehicle,
+  MainPath,
+  ReserveVehicle,
+  vehicle,
+  vehicleCategory,
+  vehicles,
+} from "./api";
 
 export const getAllVehicles = async () => {
   try {
     const res = await axios.get(MainPath + vehicles);
-    console.log(res);
     return res.data;
   } catch (error) {
     console.log(error);
@@ -50,6 +56,24 @@ export const getVehicleById = async (id) => {
 export const updateVehicle = async (id, data) => {
   try {
     const res = await axios.put(MainPath + vehicle + "/" + id, data);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const reserveVehicle = async (id) => {
+  try {
+    const res = await axios.put(MainPath + ReserveVehicle + "/" + id);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const freeVehicle = async (id) => {
+  try {
+    const res = await axios.put(MainPath + FreeVehicle + "/" + id);
     return res;
   } catch (error) {
     console.log(error);

@@ -20,3 +20,12 @@ export const userRegister = async (data) => {
     console.log(error);
   }
 };
+
+export const getUserById = async (id) => {
+  try {
+    const res = await axios.get(MainPath + Login + "/" + id);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};

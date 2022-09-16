@@ -10,3 +10,7 @@ export const VehicleCategories = "vcs";
 export const Login = "user";
 export const Booking = "booking";
 export const AllBookings = "allbookings";
+export const ReserveVehicle = "reservevehicle";
+export const BookingFinish = "bookingfinish";
+export const FreeVehicle = "freevehicle";
+export const BookingVehicle = "bookingvehicle";

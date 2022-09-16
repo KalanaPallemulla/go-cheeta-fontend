@@ -5,10 +5,99 @@ import Hi from "../../assets/hi.gif";
 import Navbar from "../../client/components/Navbar";
 import { ReactSmartScroller } from "react-smart-scroller";
 import { Element } from "react-scroll";
+import { getBranchById } from "../../admin/Actions/branch";
+import DriverBookingCard from "./DriverBookingCard";
+import {
+  acceptBooking,
+  addVehicleToBooking,
+  finishBooking,
+  getBookingById,
+} from "../../admin/Actions/booking";
+import { getUserById } from "../../admin/Actions/user";
+import {
+  freeVehicle,
+  getAllVehicles,
+  reserveVehicle,
+} from "../../admin/Actions/vehicles";
 
 const DriverHomeView = () => {
   const [pulse, setPulse] = useState(false);
+  const [booking, setBooking] = useState();
+  const [branchBookings, setBranchBookings] = useState([]);
+  const [user, setUser] = useState();
+  const [vehicles, setVehicles] = useState([]);
+  const [eligibleVehicles, setEligibleVehicles] = useState([]);
+  const [selectVehicle, setSelectVehicle] = useState();
 
+  const getBranch = async () => {
+    const branch = window.localStorage.getItem("branch");
+    const res = await getBranchById(branch);
+    // console.log(res);
+    setTimeout(() => {
+      setBranchBookings(res.data.branchBookings.reverse());
+    }, 1);
+  };
+
+  const getVehicles = async () => {
+    const res = await getAllVehicles();
+    setVehicles(res);
+  };
+
+  useEffect(() => {
+    getBranch();
+    getVehicles();
+  }, []);
+
+  const handleClick = async (id) => {
+    console.log("click");
+    setBooking();
+    setUser();
+    const res = await getBookingById(id);
+    const userRes = await getUserById(res.data.user_id);
+    setBooking(res.data);
+    setUser(userRes.data);
+  };
+  // console.log("Booking ===>", vehicles);
+
+  useEffect(() => {
+    if (booking) {
+      const driver_id = window.localStorage.getItem("driver");
+
+      let arr = [];
+      vehicles.map((v) => {
+        const res = v.driver_ids.filter((id) => id == driver_id);
+        if (res.length > 0 && v.status == 0) {
+          arr.push(v);
+        }
+      });
+      setEligibleVehicles(arr);
+    }
+  }, [booking && booking.vehicleCat_id]);
+
+  // console.log("Branch Bookings", eligibleVehicles);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const driver_id = window.localStorage.getItem("driver");
+
+    booking.driver_id = driver_id;
+    booking.vehicle_id = selectVehicle;
+    const resDriver = await acceptBooking(booking.id, booking);
+    const addRes = await addVehicleToBooking(booking.id, booking);
+    const res = await reserveVehicle(selectVehicle);
+
+    if (res.data) {
+      window.location.reload();
+    }
+  };
+
+  const completeHandle = async (id, vId) => {
+    // const res = await finishBooking(id);
+    const vRes = await freeVehicle(vId);
+    console.log(vRes);
+    getBranch();
+  };
   return (
     <>
       <Navbar />
@@ -27,42 +116,48 @@ const DriverHomeView = () => {
             </h1>
             <div className="flex h-full">
               <div className="m-auto">
-                <form className="bg-white p-8 rounded-lg shadow-lg shadow-gray-400 ">
+                <form
+                  className="bg-white p-8 rounded-lg shadow-lg shadow-gray-400 "
+                  onSubmit={handleSubmit}
+                >
                   <h1 className="text-2xl DF text-center font-bold mb-6 text-blue-700">
                     Create a booking
                   </h1>
+                  {booking && (
+                    <div>
+                      <h1 className="font-md DF text-gray-600">
+                        User name: {user.name}
+                      </h1>
+                      <h1 className="font-md DF text-gray-600">
+                        Pick Location: {booking.pickLocation}
+                      </h1>
+                      <h1 className="font-md DF text-gray-600">
+                        Drop Location: {booking.dropLocation}
+                      </h1>
+                      <h1 className="font-md DF text-gray-600">
+                        Address: {booking.address}
+                      </h1>
+                      <h1 className="font-md DF text-gray-600">
+                        Fee: {booking.cost}
+                      </h1>
+                    </div>
+                  )}
 
                   <label className="block mt-4">
                     <span className="after:content-['*'] after:ml-0.5 after:text-red-500 block text-sm  text-slate-700 font-bold DF">
-                      Branch
+                      Vehicle
                     </span>
-                    <select className="mt-1 px-1 py-2 md:w-96 w-full bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block  rounded-md sm:text-sm focus:ring-1 DF font-bold">
-                      <option>Branch</option>
-                    </select>
-                  </label>
-
-                  <label className="block mt-4">
-                    <span className="after:content-['*'] after:ml-0.5 after:text-red-500 block text-sm  text-slate-700 font-bold DF">
-                      Pick location
-                    </span>
-                    <select className="mt-1 px-1 py-2 md:w-96 w-full bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block  rounded-md sm:text-sm focus:ring-1 DF font-bold">
-                      <option>Location</option>
-                    </select>
-                  </label>
-                  <label className="block mt-4">
-                    <span className="after:content-['*'] after:ml-0.5 after:text-red-500 block text-sm  text-slate-700 font-bold DF">
-                      Drop location
-                    </span>
-                    <select className="mt-1 px-1 py-2 md:w-96 w-full bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block  rounded-md sm:text-sm focus:ring-1 DF font-bold">
-                      <option>Location</option>
-                    </select>
-                  </label>
-                  <label className="block mt-4">
-                    <span className="after:content-['*'] after:ml-0.5 after:text-red-500 block text-sm  text-slate-700 font-bold DF">
-                      Vehicle Type
-                    </span>
-                    <select className="mt-1 px-1 py-2 md:w-96 w-full bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block  rounded-md sm:text-sm focus:ring-1 DF font-bold">
-                      <option>Select type</option>
+                    <select
+                      value={selectVehicle}
+                      onChange={(e) => setSelectVehicle(e.target.value)}
+                      className="mt-1 px-1 py-2 md:w-96 w-full bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block  rounded-md sm:text-sm focus:ring-1 DF font-bold"
+                    >
+                      <option>Select vehicle</option>
+                      {eligibleVehicles.map((ev, index) => (
+                        <option key={index} value={ev.id}>
+                          {ev.name}
+                        </option>
+                      ))}
                     </select>
                   </label>
 
@@ -82,6 +177,49 @@ const DriverHomeView = () => {
             </div>
           </div>
         </div>
+        <div className="flex py-8 md:py-8">
+          <div className="m-auto">
+            <ReactSmartScroller vertical={true}>
+              {branchBookings &&
+                branchBookings.map((branchBooking, index) => (
+                  <div
+                    className="p-2"
+                    // onClick={() => handleClick(branchBooking.id)}
+                    key={index}
+                  >
+                    <DriverBookingCard
+                      booking={branchBooking}
+                      handleClick={handleClick}
+                      completeHandle={completeHandle}
+                    />
+                  </div>
+                ))}
+
+              {/* <div className="p-2">
+                <BookingCard />
+              </div>
+              <div className="p-2">
+                <BookingCard />
+              </div>
+              <div className="p-2">
+                <BookingCard status="pending" />
+              </div>
+
+              <div className="p-2">
+                <BookingCard status="accept" />
+              </div>
+              <div className="p-2">
+                <BookingCard />
+              </div>
+              <div className="p-2">
+                <BookingCard />
+              </div>
+              <div className="p-2">
+                <BookingCard />
+              </div> */}
+            </ReactSmartScroller>{" "}
+          </div>
+        </div>{" "}
       </div>
     </>
   );
