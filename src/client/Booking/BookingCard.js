@@ -5,8 +5,9 @@ const BookingCard = ({ status, booking }) => {
   return (
     <div className="border border-gray-300 rounded-xl p-8 shadow-lg bg-yellow-50">
       <div className="font-semibold text-slate-700 text-xl">
-        Booking details to Kandy
+        Booking details to {booking.dropLocation}
       </div>
+
       <h1 className="mt-2 text-md DF text-gray-600">
         From: <span className="text-blue-600">{booking.pickLocation}</span>
       </h1>

@@ -8,6 +8,9 @@ const DriverBookingCard = ({ booking, handleClick, completeHandle }) => {
         Booking details to {booking.dropLocation}
       </div>
       <h1 className="mt-2 text-md DF text-gray-600">
+        Booking Id: <span className="text-blue-600">{booking.id}</span>
+      </h1>
+      <h1 className="mt-2 text-md DF text-gray-600">
         From: <span className="text-blue-600">{booking.pickLocation}</span>
       </h1>
       <h1 className="mt-1 text-md DF text-gray-600">

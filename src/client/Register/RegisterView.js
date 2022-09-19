@@ -116,7 +116,7 @@ const RegisterView = () => {
                       value={contactNo}
                       onChange={handleChange}
                       className="mt-1 px-3 py-2 md:w-96 w-full bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block  rounded-md sm:text-sm focus:ring-1 DF font-bold"
-                      placeholder="example@mail.com"
+                      placeholder="0000000"
                     />
                   </label>
 
