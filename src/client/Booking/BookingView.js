@@ -216,7 +216,7 @@ const BookingView = () => {
                           : "border-sky-500 text-sky-500"
                       }`}
                     >
-                      Sign in
+                      Confirm
                     </button>
                   </div>
                 </form>

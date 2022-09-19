@@ -96,7 +96,9 @@ const DriverHomeView = () => {
     const res = await finishBooking(id);
     const vRes = await freeVehicle(vId);
     console.log(vRes);
-    getBranch();
+    if (vRes.data) {
+      window.location.reload();
+    }
   };
   return (
     <>
@@ -126,7 +128,10 @@ const DriverHomeView = () => {
                   {booking && (
                     <div>
                       <h1 className="font-md DF text-gray-600">
-                        User name: {user.name}
+                        Customer Name: {user.name}
+                      </h1>
+                      <h1 className="font-md DF text-gray-600">
+                        User Contact No: {user.contactNo && user.contactNo}
                       </h1>
                       <h1 className="font-md DF text-gray-600">
                         Pick Location: {booking.pickLocation}
