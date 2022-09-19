@@ -2,8 +2,10 @@ import { Input, Option, Select } from "@material-tailwind/react";
 import React, { useState } from "react";
 import { addCategory } from "../Actions/category";
 import Container from "../components/Container";
+import { useNavigate } from "react-router-dom";
 
 const AddVehicleCategory = () => {
+  const navigate = useNavigate();
   const [pulse] = useState(true);
   const [category, setCategory] = useState({
     name: "",
@@ -15,6 +17,9 @@ const AddVehicleCategory = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const res = await addCategory(category);
+    if (res.data) {
+      navigate("/manage-categories");
+    }
     console.log(res);
   };
   return (

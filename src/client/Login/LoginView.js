@@ -30,6 +30,9 @@ const LoginView = ({ props }) => {
       // Navigate.to("/admin");
       window.localStorage.setItem("user", res.data.id);
       history("/booking");
+    } else {
+      alert("Please check your password");
+      return;
     }
   };
 
@@ -106,7 +109,7 @@ const LoginView = ({ props }) => {
                       Sign in
                     </button>
                   </div>
-                  <Link to="/">
+                  <Link to="/register">
                     <h1 className="text-center text-sm DF mt-4 text-gray-500">
                       Don't you have an account...?
                     </h1>

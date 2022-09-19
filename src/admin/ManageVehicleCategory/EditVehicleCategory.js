@@ -1,6 +1,6 @@
 import { Input, Option, Select } from "@material-tailwind/react";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   addCategory,
   getCategoryById,
@@ -9,6 +9,7 @@ import {
 import Container from "../components/Container";
 
 const EditVehicleCategory = () => {
+  const navigate = useNavigate();
   const param = useParams();
   const [pulse] = useState(true);
   const [category, setCategory] = useState({
@@ -23,6 +24,9 @@ const EditVehicleCategory = () => {
     console.log(category);
     console.log(param.id);
     const res = await updateCategory(param.id, category);
+    if (res.data) {
+      navigate("/manage-categories");
+    }
     console.log(res);
   };
   const getCat = async () => {

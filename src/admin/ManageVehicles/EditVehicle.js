@@ -4,12 +4,13 @@ import { getAllBranches } from "../Actions/branch";
 import Container from "../components/Container";
 import { getAllCategories } from "../Actions/category";
 import { getAllDrivers } from "../Actions/drivers";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getVehicleById, updateVehicle } from "../Actions/vehicles";
 
 const EditVehicle = () => {
   const param = useParams();
   console.log("param", param);
+  const navigate = useNavigate();
   const [pulse] = useState(true);
   const [branches, setBranches] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -79,12 +80,15 @@ const EditVehicle = () => {
     console.log(data);
     const res = await updateVehicle(param.id, data);
     console.log(res);
+    if (res.data) {
+      navigate("/manage-vehicles");
+    }
   };
 
   return (
     <Container>
       <div className="py-4 bg-slate-800 h-full text-2xl font-bold text-white px-4">
-        Add Vehicle
+        Edit Vehicle
       </div>
       <div>
         <form onSubmit={handleSubmit}>
@@ -101,7 +105,7 @@ const EditVehicle = () => {
               placeholder="example@mail.com"
             />
           </label>
-          <label className="block mt-4">
+          {/* <label className="block mt-4">
             <span className="after:content-['*'] after:ml-0.5 after:text-red-500 block text-sm  text-slate-700 font-bold DF">
               Category
             </span>
@@ -116,7 +120,7 @@ const EditVehicle = () => {
                 <option value={category.id}>{category.name}</option>
               ))}
             </select>
-          </label>
+          </label> */}
           <label className="block mt-4">
             <span className="after:content-['*'] after:ml-0.5 after:text-red-500 block text-sm  text-slate-700 font-bold DF">
               Number of seats
@@ -130,7 +134,7 @@ const EditVehicle = () => {
               placeholder="4"
             />
           </label>
-          <label className="block mt-4">
+          {/* <label className="block mt-4">
             <span className="after:content-['*'] after:ml-0.5 after:text-red-500 block text-sm  text-slate-700 font-bold DF">
               Branch
             </span>
@@ -145,7 +149,7 @@ const EditVehicle = () => {
                 <option value={branch.id}>{branch.name}</option>
               ))}
             </select>
-          </label>
+          </label> */}
           <div>
             <label className="block mt-4 ">
               <span className="after:content-['*'] after:ml-0.5 after:text-red-500 block text-sm  text-slate-700 font-bold DF">

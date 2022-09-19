@@ -1,6 +1,7 @@
 import React from "react";
 import AdminNavbar from "./AdminNavbar";
 import Logo from "../../assets/Logo.png";
+import { Link } from "react-router-dom";
 
 const Container = ({ children }) => {
   return (
@@ -12,10 +13,12 @@ const Container = ({ children }) => {
           </div>
           <div className="col-span-3 flex items-center justify-center"></div>
           <div className="col-span-1 flex justify-end items-center space-x-2">
-            <div className="font-serif text-lg text-gray-600">Logout</div>
-            <div className="h-10 w-10 rounded-full flex justify-center items-center font-bold border border-gray-300 ">
-              K
-            </div>
+            <Link className="flex items-center space-x-2" to="/">
+              <div className="font-serif text-lg text-gray-600">Logout</div>
+              <div className="h-10 w-10 rounded-full flex justify-center items-center font-bold border border-gray-300 ">
+                K
+              </div>
+            </Link>
           </div>
         </div>
       </div>

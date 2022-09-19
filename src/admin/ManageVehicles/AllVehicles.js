@@ -28,7 +28,7 @@ const AllVehicles = () => {
       itemsArr.push(res[i]);
     }
     setVehicles(itemsArr);
-    setFilterVehicles(vehicles);
+    setFilterVehicles(itemsArr);
   };
   useEffect(() => {
     getVehicles();
@@ -47,18 +47,18 @@ const AllVehicles = () => {
 
   const handleFilter = useCallback(() => {
     if (filter) {
-      const filtered = vehicles.filter((item) => {
-        return item.branch_id == filter;
-      });
-
-      setFilterVehicles(filtered);
+      setFilterVehicles(vehicles.filter((v) => v.branch_id == filter));
     } else {
       setFilterVehicles(vehicles);
     }
   }, [filter]);
 
   useEffect(() => {
-    handleFilter();
+    if (filter) {
+      handleFilter();
+    } else {
+      setFilterVehicles(vehicles);
+    }
   }, [filter]);
 
   console.log(filter);
@@ -76,7 +76,7 @@ const AllVehicles = () => {
           onChange={(e) => setFilter(e.target.value)}
           className="mt-1 px-3 py-2 md:w-96 w-full bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block  rounded-md sm:text-sm focus:ring-1 DF font-bold"
         >
-          <option value="">All branches</option>
+          <option value={""}>All branches</option>
           {branches.map((item, index) => (
             <option key={index} value={item.id}>
               {item.name}

@@ -12,6 +12,7 @@ function Navbar() {
   const handleClick = () => {
     window.localStorage.removeItem("user");
     window.localStorage.removeItem("driver");
+    window.localStorage.removeItem("branch");
 
     navigate("/");
   };

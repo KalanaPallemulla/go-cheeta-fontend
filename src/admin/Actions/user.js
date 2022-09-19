@@ -8,6 +8,10 @@ export const loginByEmail = async (email, password) => {
     );
     return res;
   } catch (error) {
+    if (error.response.status === 500) {
+      alert("No user for this email");
+      return;
+    }
     console.log(error);
   }
 };
@@ -17,6 +21,10 @@ export const userRegister = async (data) => {
     const res = await axios.post(MainPath + Login, data);
     return res;
   } catch (error) {
+    if (error.response.status === 500) {
+      alert("Email already exists");
+      return;
+    }
     console.log(error);
   }
 };

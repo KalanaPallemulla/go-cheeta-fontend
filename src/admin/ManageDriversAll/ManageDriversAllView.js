@@ -2,17 +2,21 @@ import { Input, Option, Select } from "@material-tailwind/react";
 import React, { useEffect, useState } from "react";
 import Container from "../components/Container";
 import { deleteDriver, getAllDrivers } from "../Actions/drivers";
-import { getBranchById } from "../Actions/branch";
+import { getAllBranches, getBranchById } from "../Actions/branch";
 import { Link } from "react-router-dom";
 
 const ManageDriversAllView = () => {
   const [pulse, setPulse] = useState(true);
   const [drivers, setDrivers] = useState([]);
+  const [driverFilter, setDriverFilter] = useState([]);
+  const [branch, setBranch] = useState("");
+  const [allBranches, setAllBranches] = useState([]);
 
   useEffect(() => {
     // getData();
 
     getData();
+    getBranches();
   }, []);
   const getData = async () => {
     let driversWithBranch = [];
@@ -30,6 +34,11 @@ const ManageDriversAllView = () => {
     setDrivers(driversWithBranch);
   };
 
+  const getBranches = async () => {
+    const res = await getAllBranches();
+    setAllBranches(res.data);
+  };
+
   const handleDelete = async (id) => {
     const res = await deleteDriver(id);
     if (res.status === 200) {
@@ -38,6 +47,16 @@ const ManageDriversAllView = () => {
   };
 
   console.log("drivers", drivers);
+
+  useEffect(() => {
+    if (drivers) {
+      if (!branch) {
+        setDriverFilter(drivers);
+      } else {
+        setDriverFilter(drivers.filter((d) => d.branch_id == branch));
+      }
+    }
+  }, [branch, drivers]);
 
   return (
     <Container>
@@ -48,8 +67,17 @@ const ManageDriversAllView = () => {
         <span className="after:content-['*'] after:ml-0.5 after:text-red-500 block text-sm  text-slate-700 font-bold DF">
           Branch
         </span>
-        <select className="mt-1 px-3 py-2 md:w-96 w-full bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block  rounded-md sm:text-sm focus:ring-1 DF font-bold">
-          <option>All branches</option>
+        <select
+          value={branch}
+          onChange={(e) => setBranch(e.target.value)}
+          className="mt-1 px-3 py-2 md:w-96 w-full bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block  rounded-md sm:text-sm focus:ring-1 DF font-bold"
+        >
+          <option value={""}>All branches</option>
+          {allBranches.map((b, i) => (
+            <option value={b.id} key={i}>
+              {b.name}
+            </option>
+          ))}
         </select>
       </label>
       <div className="mt-4">
@@ -94,40 +122,41 @@ const ManageDriversAllView = () => {
               </th>
             </tr>
           </thead>
-          {drivers.map((driver, index) => (
-            <tbody key={index} className="divide-y divide-gray-200">
-              <tr>
-                <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                  {driver.name}
-                </td>
-                <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                  {driver.contactNo}
-                </td>
-                <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                  {driver.username}
-                </td>
-                <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                  {driver.branch && driver.branch}
-                </td>
-                <td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
-                  <Link
-                    className="text-green-500 hover:text-green-700"
-                    to={`/manage-driver-edit/${driver.id}`}
-                  >
-                    Edit
-                  </Link>
-                </td>
-                <td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
-                  <button
-                    onClick={() => handleDelete(driver.id)}
-                    className="text-red-500 hover:text-red-700"
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          ))}
+          {driverFilter &&
+            driverFilter.map((driver, index) => (
+              <tbody key={index} className="divide-y divide-gray-200">
+                <tr>
+                  <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                    {driver.name}
+                  </td>
+                  <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                    {driver.contactNo}
+                  </td>
+                  <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                    {driver.username}
+                  </td>
+                  <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                    {driver.branch && driver.branch}
+                  </td>
+                  <td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
+                    <Link
+                      className="text-green-500 hover:text-green-700"
+                      to={`/manage-driver-edit/${driver.id}`}
+                    >
+                      Edit
+                    </Link>
+                  </td>
+                  <td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
+                    <button
+                      onClick={() => handleDelete(driver.id)}
+                      className="text-red-500 hover:text-red-700"
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            ))}
         </table>
       </div>
     </Container>

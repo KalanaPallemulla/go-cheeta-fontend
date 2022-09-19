@@ -20,14 +20,14 @@ const BookingCard = ({ status, booking }) => {
         className={`mt-2 ${
           booking.status === "Pending"
             ? "bg-green-600"
-            : booking.status === "Accept"
+            : booking.status === "Confirm"
             ? "bg-orange-600"
             : "bg-red-600"
         } w-fit py-1 px-2 rounded-full text-white text-sm font-bold`}
       >
         {booking.status === "Pending"
           ? "Pending"
-          : booking.status === "Accept"
+          : booking.status === "Confirm"
           ? "Confirm"
           : "Completed"}
       </div>

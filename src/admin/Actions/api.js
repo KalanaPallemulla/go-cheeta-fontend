@@ -14,3 +14,4 @@ export const ReserveVehicle = "reservevehicle";
 export const BookingFinish = "bookingfinish";
 export const FreeVehicle = "freevehicle";
 export const BookingVehicle = "bookingvehicle";
+export const DriverLogin = "driverusername";

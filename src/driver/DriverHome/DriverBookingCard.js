@@ -48,14 +48,14 @@ const DriverBookingCard = ({ booking, handleClick, completeHandle }) => {
           </button>
         )}
 
-        {/* {booking && booking.status === "Confirm" && ( */}
-        <button
-          onClick={() => completeHandle(booking.id, booking.vehicle_id)}
-          className="bg-blue-600 px-2 p-1 rounded-full text-white"
-        >
-          Complete
-        </button>
-        {/* )} */}
+        {booking && booking.status === "Confirm" && (
+          <button
+            onClick={() => completeHandle(booking.id, booking.vehicle_id)}
+            className="bg-blue-600 px-2 p-1 rounded-full text-white"
+          >
+            Complete
+          </button>
+        )}
       </div>
     </div>
   );

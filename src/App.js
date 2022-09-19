@@ -27,6 +27,7 @@ import AddBranch from "./admin/ManageBranches/AddBranch";
 import AllCategories from "./admin/ManageVehicleCategory/AllCategories";
 import EditVehicleCategory from "./admin/ManageVehicleCategory/EditVehicleCategory";
 import AddVehicleCategory from "./admin/ManageVehicleCategory/AddVehicleCategory";
+import BookingDetails from "./admin/AdminHome/BookingDetails";
 
 function App() {
   return (
@@ -65,6 +66,7 @@ function App() {
           element={<EditVehicleCategory />}
         />
         <Route path="/manage-category-add" element={<AddVehicleCategory />} />
+        <Route path="/booking-details/:id" element={<BookingDetails />} />
       </Routes>
 
       <Routes>

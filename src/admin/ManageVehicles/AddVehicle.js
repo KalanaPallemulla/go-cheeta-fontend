@@ -5,8 +5,10 @@ import Container from "../components/Container";
 import { getAllCategories } from "../Actions/category";
 import { addDriver, getAllDrivers } from "../Actions/drivers";
 import { addVehicleToStore } from "../Actions/vehicles";
+import { useNavigate } from "react-router-dom";
 
 const AddVehicle = () => {
+  const navigate = useNavigate();
   const [pulse] = useState(true);
   const [branches, setBranches] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -64,6 +66,9 @@ const AddVehicle = () => {
     };
     console.log(data);
     const res = await addVehicleToStore(data);
+    if (res.data) {
+      navigate("/manage-vehicles");
+    }
     console.log(res);
   };
 

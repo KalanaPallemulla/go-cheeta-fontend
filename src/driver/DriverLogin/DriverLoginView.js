@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { driverLogin } from "../../admin/Actions/drivers";
 import Cab from "../../assets/cab.gif";
 import Hi from "../../assets/hi.gif";
 import Navbar from "../../client/components/Navbar";
 
 const DriverLoginView = () => {
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [pulse, setPulse] = useState(false);
-
-  const handleSubmit = (e) => {};
 
   useEffect(() => {
     if (username) {
@@ -18,7 +18,19 @@ const DriverLoginView = () => {
     }
   }, [username]);
 
-  // console.log(user);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log(username);
+    const res = await driverLogin(username);
+    if (res.data) {
+      console.log("res.data ===>", res.data);
+      window.localStorage.setItem("driver", res.data.id);
+      window.localStorage.setItem("branch", res.data.branch_id);
+      navigate("/driver");
+    }
+  };
+
+  console.log(username);
   return (
     <>
       <Navbar />
@@ -37,7 +49,10 @@ const DriverLoginView = () => {
             </h1>
             <div className="flex h-full">
               <div className="m-auto">
-                <form className="bg-white p-8 rounded-lg shadow-lg shadow-gray-400 ">
+                <form
+                  className="bg-white p-8 rounded-lg shadow-lg shadow-gray-400 "
+                  onSubmit={handleSubmit}
+                >
                   <h1 className="text-2xl DF text-center font-bold mb-6 text-blue-700">
                     Driver Sign in
                   </h1>
@@ -54,14 +69,6 @@ const DriverLoginView = () => {
                       className="mt-1 px-3 py-2 md:w-96 w-full bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block  rounded-md sm:text-sm focus:ring-1 DF font-bold"
                       placeholder="example"
                     />
-                  </label>
-                  <label className="block mt-4">
-                    <span className="after:content-['*'] after:ml-0.5 after:text-red-500 block text-sm  text-slate-700 font-bold DF">
-                      Vehicle Type
-                    </span>
-                    <select className="mt-1 px-1 py-2 md:w-96 w-full bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block  rounded-md sm:text-sm focus:ring-1 DF font-bold">
-                      <option className="text-slate-700">Select type</option>
-                    </select>
                   </label>
 
                   <div className="flex justify-center">

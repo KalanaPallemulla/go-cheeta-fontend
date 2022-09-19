@@ -1,5 +1,6 @@
 import { AllDrivers, Branch, Driver, MainPath } from "./api";
 import axios from "axios";
+import { DriverLogin } from "./api";
 
 export const getAllDrivers = async () => {
   let drivers;
@@ -60,5 +61,18 @@ export const updateDriver = async (id, data) => {
     return res;
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const driverLogin = async (username) => {
+  console.log("User====>", username);
+  try {
+    const res = await axios.get(MainPath + DriverLogin + "/" + username);
+    return res;
+  } catch (error) {
+    console.log("error ===>", error.response.status);
+    if (error.response.status == 400 || error.response.status == 500) {
+      alert("Please make sure that you registered as a driver");
+    }
   }
 };

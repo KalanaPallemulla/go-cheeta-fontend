@@ -11,9 +11,11 @@ const AdminNavbar = () => {
     <div>
       <div className="w-60 fixed left-0 h-screen top-20 shadow-md">
         <div className="flex justify-center pt-8 flex-col items-center space-y-4">
-          <div className="bg-slate-800 shadow-yellow-900 w-48 py-4 font-bold text-white text-xl rounded-2xl shadow-md text-center cursor-pointer ">
-            Branch Reports
-          </div>
+          <Link to="/admin">
+            <div className="bg-slate-800 shadow-yellow-900 w-48 py-4 font-bold text-white text-xl rounded-2xl shadow-md text-center cursor-pointer ">
+              Branch Reports
+            </div>
+          </Link>
           <Popover placement="bottom">
             <PopoverHandler>
               <div className="bg-slate-800 shadow-yellow-900 w-48 py-4 font-bold text-white text-xl rounded-2xl shadow-md text-center cursor-pointer">
@@ -75,31 +77,6 @@ const AdminNavbar = () => {
                     Add new category
                   </div>
                 </Link>
-              </div>
-            </PopoverContent>
-          </Popover>
-          <Popover placement="bottom">
-            <PopoverHandler>
-              <div className="bg-slate-800 shadow-yellow-900 w-48 py-4 font-bold text-white text-xl rounded-2xl shadow-md text-center cursor-pointer">
-                Manage Branches
-              </div>
-            </PopoverHandler>
-            <PopoverContent>
-              <div className="space-y-2 p-2">
-                <Link to="/manage-branches">
-                  <div className="px-4 py-2 border border-gray-300 text-lg font-serif rounded-md cursor-pointer hover:bg-gray-300 hover:text-white">
-                    All branches
-                  </div>
-                </Link>
-                <Link to="/manage-branch-add">
-                  <div className="px-4 py-2 border border-gray-300 text-lg font-serif rounded-md cursor-pointer hover:bg-gray-300 hover:text-white">
-                    Add new branch
-                  </div>
-                </Link>
-
-                {/* <div className="px-4 py-2 border border-gray-300 text-lg font-serif rounded-md cursor-pointer hover:bg-gray-300 hover:text-white">
-                  Edit branch
-                </div> */}
               </div>
             </PopoverContent>
           </Popover>

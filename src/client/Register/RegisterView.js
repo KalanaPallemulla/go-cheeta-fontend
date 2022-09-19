@@ -26,10 +26,15 @@ const RegisterView = () => {
     e.preventDefault();
 
     if (password === confirmPassword) {
-      const res = await userRegister(user);
-      if (res.data) {
-        window.localStorage.setItem("user", res.data.id);
-        navigate("/booking");
+      if (name && email && password) {
+        const res = await userRegister(user);
+        if (res.data) {
+          window.localStorage.setItem("user", res.data.id);
+          navigate("/booking");
+        }
+      } else {
+        alert("All fields needs to fill");
+        return;
       }
     }
   };

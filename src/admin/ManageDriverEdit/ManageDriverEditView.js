@@ -1,11 +1,12 @@
 import { Input, Option, Select } from "@material-tailwind/react";
 import React, { useEffect, useState } from "react";
 import Container from "../components/Container";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { getDriverById, updateDriver } from "../Actions/drivers";
 
 const ManageDriversEditView = () => {
   const location = useParams();
+  const navigate = useNavigate();
 
   const [pulse] = useState(true);
 
@@ -40,6 +41,9 @@ const ManageDriversEditView = () => {
     e.preventDefault();
     const driverRes = await updateDriver(location.id, driver);
     console.log(driverRes);
+    if (driverRes.data) {
+      navigate("/manage-drivers");
+    }
     // const assignToBranch = await assignDriverToBranch(
     //   branch,
     //   driverRes.data.id

@@ -49,7 +49,7 @@ const DriverHomeView = () => {
   }, []);
 
   const handleClick = async (id) => {
-    console.log("click");
+    console.log("click", id);
     setBooking();
     setUser();
     const res = await getBookingById(id);
@@ -93,7 +93,7 @@ const DriverHomeView = () => {
   };
 
   const completeHandle = async (id, vId) => {
-    // const res = await finishBooking(id);
+    const res = await finishBooking(id);
     const vRes = await freeVehicle(vId);
     console.log(vRes);
     getBranch();
